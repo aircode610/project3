@@ -1,7 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
-from .models import User
 from django.core.mail import send_mail
+
+from .models import User, Pizza, Topping, Sub, Pasta, Salad, Dinner_Platter
 
 import random
 
@@ -16,7 +17,6 @@ def index(request):
             }
             return render(request, "orders/index.html", context)
     except:
-        
         request.session["logged_in"] = False
         return HttpResponseRedirect(reverse("signin"))
 
