@@ -1,0 +1,378 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static "orders/styles/style.css" %}">
+
+    <link rel="icon" href="{% static "orders/images/pizza.png" %}" type="image/gif" sizes="16x16">
+
+    <title>Eat pizza!</title>
+  </head>
+  <body>
+
+    <div id="navbar">
+
+      <img src="{% static "orders/images/pizza.png" %}" alt="Pizza" width="55" height="55">
+      <span id="title">Eat Pizza!</span>
+
+      <span class="float-right" id="logged-in">
+
+        <span>Logged in as: </span>
+        <b>{{username}} </b>
+        <a href="{% url 'logout' %}" class="link ml-1"> Log out</a>
+
+      </span>
+
+    </div>
+
+    <div id="left-nav" class="mt-4">
+
+      <div class="pl-2">
+        <b>Menu</b>
+      </div>
+
+      <div class="p-3">
+        <img src="{% static "orders/images/pizza2.png" %}" alt="Pizza" width="40" height="40">
+        <a href="#" onclick="show_items(event)" id="pizza-menu" class="link">
+          Pizza
+        </a>
+      </div>
+
+      <div class="p-3">
+        <img src="{% static "orders/images/topping.png" %}" alt="Toppings" width="40" height="40">
+        <a href="#" onclick="show_items(event)" class="link">
+          Topping
+        </a>
+      </div>
+
+      <div class="p-3">
+        <img src="{% static "orders/images/sub.png" %}" alt="Subs" width="40" height="40">
+        <a href="#" onclick="show_items(event)" class="link">
+          Sub
+        </a>
+      </div>
+
+      <div class="p-3">
+        <img src="{% static "orders/images/pasta.png" %}" alt="Pasta" width="40" height="40">
+        <a href="#" onclick="show_items(event)" class="link">
+          Pasta
+        </a>
+      </div>
+
+      <div class="p-3">
+        <img src="{% static "orders/images/salad.png" %}" alt="Salad" width="40" height="40">
+        <a href="#" onclick="show_items(event)" class="link">
+          Salad
+        </a>
+      </div>
+
+      <div class="p-3">
+        <img src="{% static "orders/images/dinner.png" %}" alt="Dinner platters" width="40" height="40">
+        <a href="#" onclick="show_items(event)" class="link">
+          Dinner platter
+        </a>
+      </div>
+
+      <div class="pl-2 pt-3">
+        <b>Cart</b>
+      </div>
+
+      <div class="p-3">
+
+        <div class="">
+          <img src="{% static "orders/images/cart.png" %}" alt="Cart" width="40" height="40">
+          <a href="#" class="link" data-toggle="modal" data-target="#exampleModalLong">
+            View your cart
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="main" class="float-right">
+
+      <div id="items">
+
+        <div id="menu-top">
+
+          <span id="menu-title">- Special Pizza -</span>
+
+        </div>
+
+        <div class="mt-5" id="menu-content">
+
+          <span class="special-pizza">- Extra Cheese</span>
+          <span class="special-pizza">- Choose 5 toppings</span>
+          <span class="special-pizza">- 50% discount on any sub</span>
+          <span class="special-pizza">- Only for 30$</span>
+
+          <button type="button" name="button" class="order-btn btn mt-3" onclick="order()" id="order-btn"> Order now </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Cart</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modal-body">
+
+            <span id="sum">Sum: <span id="money">$0</span></span>
+
+            <br>
+            <br>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn" id="order-cart-btn">Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+      $(document).ready(function(){
+
+        var cart = JSON.parse(localStorage.getItem("cart"));
+
+        if (cart === undefined || cart === null || cart.legth === 0){
+
+          var list = [];
+          localStorage.setItem("cart", JSON.stringify(list));
+
+        }
+        else {
+
+          for (item of cart){
+
+            var br = $('<br />')
+
+            price = parseFloat(item.split('$')[1]);
+            sum += price;
+
+            $("#modal-body").append(item);
+            $("#modal-body").append(br);
+            document.getElementById("money").innerHTML = "$" + sum.toString();
+
+          }
+
+        }
+
+        $("#order-cart-btn").click(function() {
+
+          $.ajax({
+              url: "/order",
+              type: "POST",
+              dataType: "json",
+              data: {
+                  cart: JSON.stringify(localStorage.getItem("cart")),
+                  price: sum,
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+                  },
+              error : function(xhr,errmsg,err) {
+                localStorage.clear();
+                $("#modal-body").empty();
+                $('#exampleModalLong').modal('toggle');
+                alert("Your order has been reveived!");
+                location.reload();
+              }
+          });
+
+        });
+
+      });
+
+      var foods = {{ food|safe }};
+
+      var sum = 0;
+      var count = 0;
+
+      function order() {
+
+        document.getElementById("pizza-menu").click();
+
+      }
+
+      function show_items(e) {
+
+        var name = event.target.innerHTML.trim();
+
+        $("#menu-content").empty();
+        $("#menu-title").html(name)
+
+        for (food in foods){
+
+          if (food == name){
+
+            if (name == "Pizza"){
+
+              for (item of foods[food]){
+
+                var div = $('<div />')
+
+                var span = $('<span />').addClass('normal-food').html("Pizza - " + item.name +
+                ' ' + item.kind + ' (' + item.size + ')' + ' : $' + item.price);
+
+                var add_btn = $('<button />').addClass('add-btn btn mb-1').
+                  html('<img src="{% static "orders/images/add.png" %}" width="30" height="30" />')
+
+                add_btn.click(add_cart);
+
+                div.append(span);
+                div.append(add_btn);
+
+                $("#menu-content").append(div);
+
+              }
+
+            }
+
+            if (name == "Topping"){
+
+              for (item of foods[food]){
+
+                var div = $('<div />')
+
+                var span = $('<span />').addClass('normal-food').html("Topping - " + item.name + ' : $0');
+                var add_btn = $('<button />').addClass('add-btn btn mb-1').
+                  html('<img src="{% static "orders/images/add.png" %}" width="30" height="30" />')
+
+                add_btn.click(add_cart)
+
+                div.append(span);
+                div.append(add_btn);
+
+                $("#menu-content").append(div);
+
+              }
+
+            }
+
+            if (name == "Sub"){
+
+              for (item of foods[food]){
+
+                var div = $('<div />')
+
+                var span = $('<span />').addClass('normal-food').html("Sub - " + item.name +
+                ' (' + item.size + ')' + ' : $' + item.price);
+
+                var add_btn = $('<button />').addClass('add-btn btn mb-1').
+                  html('<img src="{% static "orders/images/add.png" %}" width="30" height="30" />')
+
+                add_btn.click(add_cart)
+
+                div.append(span);
+                div.append(add_btn);
+
+                $("#menu-content").append(div);
+
+              }
+
+            }
+
+            if (name == "Dinner platter"){
+
+              for (item of foods[food]){
+
+                var div = $('<div />')
+
+                var span = $('<span />').addClass('normal-food').html(item.name +
+                ' (' + item.size + ')' + ' : $' + item.price);
+
+                var add_btn = $('<button />').addClass('add-btn btn mb-1').
+                  html('<img src="{% static "orders/images/add.png" %}" width="30" height="30" />')
+
+                add_btn.click(add_cart)
+
+                div.append(span);
+                div.append(add_btn);
+
+                $("#menu-content").append(div);
+
+              }
+
+            }
+
+            if (name == "Pasta" || name == "Salad"){
+
+              for (item of foods[food]){
+
+                var div = $('<div />')
+
+                var span = $('<span />').addClass('normal-food').html(item.name + ' : $' + item.price);
+
+                var add_btn = $('<button />').addClass('add-btn btn mb-1').
+                  html('<img src="{% static "orders/images/add.png" %}" width="30" height="30" />')
+
+                add_btn.click(add_cart)
+
+                div.append(span);
+                div.append(add_btn);
+
+                $("#menu-content").append(div);
+
+              }
+
+            }
+
+          }
+
+        }
+
+      }
+
+      function add_cart(e) {
+
+        item = event.target.parentElement.parentElement.childNodes[0].innerHTML;
+        var br = $('<br />')
+
+        kind = item.split("-");
+        if (kind[0] == "Pizza "){
+          alert("First, choose the toppings and subs for the selected pizza otherwise your order will be canceled!")
+        }
+
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        cart.push(item);
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        price = parseFloat(item.split('$')[1]);
+        sum += price;
+
+        $("#modal-body").append(item);
+        $("#modal-body").append(br);
+        document.getElementById("money").innerHTML = "$" + sum.toString();
+
+      }
+
+    </script>
+
+  </body>
+</html>
