@@ -17,7 +17,6 @@ def index(request):
             }
             return render(request, "orders/index.html", context)
     except:
-
         request.session["logged_in"] = False
         return HttpResponseRedirect(reverse("signin"))
 

@@ -12,6 +12,7 @@ class User(models.Model):
         return f"{self.name} {self.lastname} ({self.email} : {self.username} - {self.password})"
 
 
+
 class Pizza(models.Model):
     NAME = (
         ('R', 'Regular'),
