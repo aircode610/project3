@@ -31,6 +31,7 @@ class Pizza(models.Model):
     name = models.CharField(max_length=10, choices=NAME)
     kind = models.CharField(max_length=10, choices=KIND)
     size = models.CharField(max_length=10, choices=SIZE)
+
     price = models.FloatField()
 
     def __str__(self):
@@ -52,6 +53,7 @@ class Sub(models.Model):
 
     name = models.CharField(max_length=20)
     size = models.CharField(max_length=10, choices=SIZE)
+
     price = models.FloatField()
 
     def __str__(self):
