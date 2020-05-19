@@ -12,26 +12,26 @@ class User(models.Model):
         return f"{self.name} {self.lastname} ({self.email} : {self.username} - {self.password})"
 
 
-
 class Pizza(models.Model):
     NAME = (
-        ('R', 'Regular'),
-        ('S', 'Sicilian'),
+        ('Regular', 'Regular'),
+        ('Sicilian', 'Sicilian'),
     )
     KIND = (
-        ('C', 'Cheese'),
-        ('1', '1 topping'),
-        ('2', '2 toppings'),
-        ('3', '3 toppings'),
-        ('S', 'Special'),
+        ('Cheese', 'Cheese'),
+        ('1 topping', '1 topping'),
+        ('2 toppings', '2 toppings'),
+        ('3 toppings', '3 toppings'),
+        ('Special', 'Special'),
     )
     SIZE = (
-        ('S', 'Small'),
-        ('L', 'Large'),
+        ('Small', 'Small'),
+        ('Large', 'Large'),
     )
-    name = models.CharField(max_length=1, choices=NAME)
-    kind = models.CharField(max_length=1, choices=KIND)
-    size = models.CharField(max_length=1, choices=SIZE)
+    name = models.CharField(max_length=10, choices=NAME)
+    kind = models.CharField(max_length=10, choices=KIND)
+    size = models.CharField(max_length=10, choices=SIZE)
+
     price = models.FloatField()
 
     def __str__(self):
@@ -47,12 +47,13 @@ class Topping(models.Model):
 
 class Sub(models.Model):
     SIZE = (
-        ('S', 'Small'),
-        ('L', 'Large'),
+        ('Small', 'Small'),
+        ('Large', 'Large'),
     )
 
     name = models.CharField(max_length=20)
-    size = models.CharField(max_length=1, choices=SIZE)
+    size = models.CharField(max_length=10, choices=SIZE)
+
     price = models.FloatField()
 
     def __str__(self):
@@ -77,12 +78,12 @@ class Salad(models.Model):
 
 class Dinner_Platter(models.Model):
     SIZE = (
-        ('S', 'Small'),
-        ('L', 'Large'),
+        ('Small', 'Small'),
+        ('Large', 'Large'),
     )
 
     name = models.CharField(max_length=20)
-    size = models.CharField(max_length=1, choices=SIZE)
+    size = models.CharField(max_length=10, choices=SIZE)
     price = models.FloatField()
 
     def __str__(self):

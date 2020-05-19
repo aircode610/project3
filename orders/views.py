@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from .models import User, Pizza, Topping, Sub, Pasta, Salad, Dinner_Platter
 
 import random
+import json
 
 # Create your views here.
 def index(request):
@@ -12,10 +13,61 @@ def index(request):
         if request.session["logged_in"] == False:
             return HttpResponseRedirect(reverse("signin"))
         else:
+
+            pizzas = []
+            for pizza in Pizza.objects.all():
+                pizzas.append({
+                    "name" : pizza.name,
+                    "kind" : pizza.kind,
+                    "size" : pizza.size,
+                    "price" : pizza.price
+                })
+
+            toppings = []
+            for topping in Topping.objects.all():
+                toppings.append({
+                    "name" : topping.name,
+                })
+
+            subs = []
+            for sub in Sub.objects.all():
+                subs.append({
+                    "name" : sub.name,
+                    "size" : sub.size,
+                    "price" : sub.price
+                })
+
+            pastas = []
+            for pasta in Pasta.objects.all():
+                pastas.append({
+                    "name" : pasta.name,
+                    "price" : pasta.price
+                })
+
+            salads = []
+            for salad in Salad.objects.all():
+                salads.append({
+                    "name" : salad.name,
+                    "price" : salad.price
+                })
+
+            dinners = []
+            for dinner in Dinner_Platter.objects.all():
+                dinners.append({
+                    "name" : dinner.name,
+                    "size" : dinner.size,
+                    "price" : dinner.price
+                })
+
+            food = { "Pizza" : pizzas, "Topping" : toppings, "Sub" : subs,
+             "Pasta" :pastas, "Salad" : salads, "Dinner platter" : dinners }
+
             context = {
-                "username" : request.session["username"]
+                "username" : request.session["username"],
+                "food" : json.dumps(food)
             }
             return render(request, "orders/index.html", context)
+
     except:
         request.session["logged_in"] = False
         return HttpResponseRedirect(reverse("signin"))
@@ -78,6 +130,18 @@ def login(request):
 
 def login_user(request):
     request.session["logged_in"] = True
+
+    users =  User.objects.all()
+
+    for user in users:
+        if user.username == request.POST["username"]:
+
+            request.session["user_info"] = { "name" : user.name, "lastname" : user.lastname,
+             "email" : user.email, "username" : user.username, "password" : user.password }
+
+            request.session["username"] = user.username
+
+            break
 
     return HttpResponseRedirect(reverse("index"))
 

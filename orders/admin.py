@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-
 from .models import User, Pizza, Topping, Sub, Pasta, Salad, Dinner_Platter
 
 # Register your models here.
