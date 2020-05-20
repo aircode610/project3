@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.core.mail import send_mail
 
-from .models import User, Pizza, Topping, Sub, Pasta, Salad, Dinner_Platter
+from .models import User, Pizza, Topping, Sub, Pasta, Salad, Dinner_Platter, Order
 
 import random
 import json
@@ -148,5 +148,48 @@ def login_user(request):
 
 def logout(request):
     request.session["logged_in"] = False
+
+    return HttpResponseRedirect(reverse("index"))
+
+
+def order(request):
+    cart = json.loads(request.POST.get('cart'))
+    price = request.POST.get('price')
+
+    orders_str = ""
+
+    for item in cart:
+        first_part = str(item).split(":")[0]
+
+        if "-" in first_part:
+            if item[0] == "P":
+                orders_str += first_part + "("
+            if item[0] == "T":
+                orders_str += first_part.split(" - ")[1]
+                if cart[cart.index(item) + 1][0] == "T":
+                    orders_str += ", "
+                elif cart[cart.index(item) + 1][0] == "S":
+                    orders_str += " ) + "
+                else:
+                    orders_str += " ), "
+            if item[0] == "S":
+                orders_str += first_part.split(" - ")[1]
+                if cart[cart.index(item) + 1][0] == "S":
+                    orders_str += ", "
+                else:
+                    orders_str += " ), "
+        else:
+          orders_str += first_part
+
+    new_order = Order(orders=orders_str, price=price)
+    new_order.save()
+
+    send_mail(
+        'Thanks for ordering pizza from our website!',
+        'Don\'t forget, always eat pizza! ;) ',
+        'aircode610@gmail.com',
+        [request.session["user_info"]["email"]],
+        fail_silently=False
+    )
 
     return HttpResponseRedirect(reverse("index"))

@@ -85,4 +85,29 @@ html, body {
   margin-left: 40px;
 }
 
+#exampleModalLong {
+  color: #272b37;
+}
+
+#order-cart-btn {
+  background-color: #fed400;
+}
+
+#order-cart-btn:hover {
+  color: white;
+  background-color: #29854f;
+}
+
+#sum {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fed400;
+}
+
+#money {
+  font-size: 20px;
+  font-weight: bold;
+  color: #29854f;
+}
+
 /*# sourceMappingURL=style.css.map */

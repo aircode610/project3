@@ -88,3 +88,27 @@ html, body {
   padding: 10px 15px;
   margin-left: 40px;
 }
+
+#exampleModalLong {
+  color: $gray;
+}
+
+#order-cart-btn {
+  background-color: $yellow;
+}
+#order-cart-btn:hover {
+  color: white;
+  background-color: $green;
+}
+
+#sum {
+  font-size: 18px;
+  font-weight: bold;
+  color: $yellow;
+}
+
+#money {
+  font-size: 20px;
+  font-weight: bold;
+  color: $green;
+}

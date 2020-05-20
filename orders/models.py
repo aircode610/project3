@@ -31,7 +31,6 @@ class Pizza(models.Model):
     name = models.CharField(max_length=10, choices=NAME)
     kind = models.CharField(max_length=10, choices=KIND)
     size = models.CharField(max_length=10, choices=SIZE)
-
     price = models.FloatField()
 
     def __str__(self):
@@ -53,7 +52,6 @@ class Sub(models.Model):
 
     name = models.CharField(max_length=20)
     size = models.CharField(max_length=10, choices=SIZE)
-
     price = models.FloatField()
 
     def __str__(self):
@@ -88,3 +86,11 @@ class Dinner_Platter(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.size}) : {self.price}"
+      
+
+class Order(models.Model):
+    orders = models.CharField(max_length=1000)
+    price = models.FloatField()
+
+    def __str__(self):
+        return f"{self.orders} : {self.price}"
