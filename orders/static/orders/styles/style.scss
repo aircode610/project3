@@ -1,0 +1,114 @@
+$gray : rgb(39,43,55);
+$red : rgb(194,0,47);
+$yellow : rgb(254,212,0);
+$green : rgb(41,133,79);
+
+html, body {
+  background-color: $gray;
+  color: white;
+  font-family: Arial;
+  padding: 6px;
+  height: 100%;
+}
+
+#title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#logged-in {
+  margin-top: 13px;
+}
+
+.link {
+  color: $red;
+}
+.link:hover {
+  color: $red;
+}
+
+#left-nav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  padding-top: 60px;
+}
+
+#main {
+  width: 85%;
+  height: 100%;
+  position: fixed;
+  margin-left: 200px;
+  padding: 20px;
+}
+
+#items {
+  width: 90%;
+  height: 90%;
+  border: 2px solid $red;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#menu-top {
+  color: white;
+}
+
+#menu-title {
+  font-weight: bold;
+  font-size: 40px;
+  text-align: center;
+  margin: 0px auto;
+  display: block;
+}
+
+#menu-content {
+  height: 83%;
+  overflow: auto;
+}
+
+.special-pizza {
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 40px;
+  display: block;
+}
+
+.normal-food {
+  font-size: 20px;
+  margin-left: 40px;
+}
+
+.order-btn {
+  color: $gray;
+  background-color: $yellow;
+  padding: 10px 15px;
+  margin-left: 40px;
+}
+
+#exampleModalLong {
+  color: $gray;
+}
+
+#order-cart-btn {
+  background-color: $yellow;
+}
+#order-cart-btn:hover {
+  color: white;
+  background-color: $green;
+}
+
+#sum {
+  font-size: 18px;
+  font-weight: bold;
+  color: $yellow;
+}
+
+#money {
+  font-size: 20px;
+  font-weight: bold;
+  color: $green;
+}
