@@ -86,7 +86,7 @@ class Dinner_Platter(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.size}) : {self.price}"
-
+      
 
 class Order(models.Model):
     orders = models.CharField(max_length=1000)
