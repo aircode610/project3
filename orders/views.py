@@ -2,73 +2,59 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse
 from django.core.mail import send_mail
 
-from .models import User, Pizza, Topping, Sub, Pasta, Salad, Dinner_Platter, Order
+from .models import User, Food, Topping, Order, Food_topping
 
 import random
 import json
 
 # Create your views here.
 def index(request):
+
     try:
+
         if request.session["logged_in"] == False:
             return HttpResponseRedirect(reverse("signin"))
         else:
 
-            pizzas = []
-            for pizza in Pizza.objects.all():
-                pizzas.append({
-                    "name" : pizza.name,
-                    "kind" : pizza.kind,
-                    "size" : pizza.size,
-                    "price" : pizza.price
+            object = Food.objects.all()
+
+            foods = []
+            for food in object:
+                foods.append({
+                    "type" : food.type,
+                    "name" : food.name,
+                    "can_have_topping" : food.can_have_topping,
+                    "exact_number_of_toppings" : food.exact_number_of_toppings,
+                    "small_price" : food.small_price,
+                    "large_price" : food.large_price,
+                    "each_topping_price" : food.each_topping_price
                 })
 
-            toppings = []
-            for topping in Topping.objects.all():
-                toppings.append({
-                    "name" : topping.name,
-                })
+            food_toppings = []
+            for food_topping in Food_topping.objects.all():
 
-            subs = []
-            for sub in Sub.objects.all():
-                subs.append({
-                    "name" : sub.name,
-                    "size" : sub.size,
-                    "price" : sub.price
-                })
+                toppings = []
+                for topping in food_topping.toppings.all():
+                    toppings.append(topping.name)
 
-            pastas = []
-            for pasta in Pasta.objects.all():
-                pastas.append({
-                    "name" : pasta.name,
-                    "price" : pasta.price
-                })
+                food = ""
+                for food in food_topping.food.all():
+                    food = food.name
 
-            salads = []
-            for salad in Salad.objects.all():
-                salads.append({
-                    "name" : salad.name,
-                    "price" : salad.price
+                food_toppings.append({
+                    "food" : food,
+                    "toppings" : toppings
                 })
-
-            dinners = []
-            for dinner in Dinner_Platter.objects.all():
-                dinners.append({
-                    "name" : dinner.name,
-                    "size" : dinner.size,
-                    "price" : dinner.price
-                })
-
-            food = { "Pizza" : pizzas, "Topping" : toppings, "Sub" : subs,
-             "Pasta" :pastas, "Salad" : salads, "Dinner platter" : dinners }
 
             context = {
                 "username" : request.session["username"],
-                "food" : json.dumps(food)
+                "food" : json.dumps(foods),
+                "toppings" : json.dumps(food_toppings)
             }
             return render(request, "orders/index.html", context)
 
     except:
+
         request.session["logged_in"] = False
         return HttpResponseRedirect(reverse("signin"))
 
@@ -116,6 +102,7 @@ def add_user(request):
     new_user.save()
 
     request.session["logged_in"] = True
+    request.session["username"] = info["username"]
 
     return HttpResponseRedirect(reverse("index"))
 
@@ -130,6 +117,7 @@ def login(request):
 
 def login_user(request):
     request.session["logged_in"] = True
+    username = request.POST["username"]
 
     users =  User.objects.all()
 
@@ -137,7 +125,7 @@ def login_user(request):
         if user.username == request.POST["username"]:
 
             request.session["user_info"] = { "name" : user.name, "lastname" : user.lastname,
-             "email" : user.email, "username" : user.username, "password" : user.password }
+             "email" : user.email, "username" : username, "password" : user.password }
 
             request.session["username"] = user.username
 
@@ -154,34 +142,9 @@ def logout(request):
 
 def order(request):
     cart = json.loads(request.POST.get('cart'))
-    price = request.POST.get('price')
+    price = json.loads(request.POST.get('price'))
 
-    orders_str = ""
-
-    for item in cart:
-        first_part = str(item).split(":")[0]
-
-        if "-" in first_part:
-            if item[0] == "P":
-                orders_str += first_part + "("
-            if item[0] == "T":
-                orders_str += first_part.split(" - ")[1]
-                if cart[cart.index(item) + 1][0] == "T":
-                    orders_str += ", "
-                elif cart[cart.index(item) + 1][0] == "S":
-                    orders_str += " ) + "
-                else:
-                    orders_str += " ), "
-            if item[0] == "S":
-                orders_str += first_part.split(" - ")[1]
-                if cart[cart.index(item) + 1][0] == "S":
-                    orders_str += ", "
-                else:
-                    orders_str += " ), "
-        else:
-          orders_str += first_part
-
-    new_order = Order(orders=orders_str, price=price)
+    new_order = Order(orders=cart, price=price)
     new_order.save()
 
     send_mail(

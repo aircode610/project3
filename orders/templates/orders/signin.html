@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,29 +10,57 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <link rel="icon" href="{% static "orders/images/pizza.png" %}" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="{% static "orders/styles/style.css" %}">
+
+    <title>Sign in</title>
   </head>
   <body>
 
-    <div class="alert alert-danger" role="alert" id="alert">
-      A simple danger alert—check it out!
+    <div class="sign-form">
+
+      <img src="{% static "orders/images/pizza.png" %}" alt="Pizza" height="80" width="80" class="d-block mx-auto">
+
+      <form class="" action="{% url 'verify' %}" method="post" id="login-form">
+
+        {% csrf_token %}
+
+        <div class="alert alert-danger" role="alert" id="alert">
+          This username is Already taken. Try again!
+        </div>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control w-100" id="name" name="name" placeholder="Enter your name...">
+        </div>
+
+        <div class="form-group">
+          <label for="lastname">Lastname</label>
+          <input type="text" class="form-control w-100" id="lastname" name="lastname" placeholder="Enter your lastname...">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control w-100" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter your email address...">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control w-100" id="username" name="username" placeholder="Enter a username...">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control w-100" id="password" name="password" placeholder="Enter a password...">
+        </div>
+
+        <button type="submit" class="btn submit" name="button">Submit</button>
+        <a href="{% url 'login' %}" class="link float-right mt-2">Already have an account? Log in</a>
+
+      </form>
+
     </div>
-
-    <form class="" action="{% url 'verify' %}" method="post" id="login-form">
-
-      {% csrf_token %}
-
-      <input type="text" name="name" value="" id="name">
-      <input type="text" name="lastname" value="" id="lastname">
-      <input type="text" name="email" value="" id="email">
-      <input type="text" name="username" value="" id="username">
-      <input type="text" name="password" value="" id="password">
-
-      <button type="submit" name="button">submit</button>
-
-    </form>
-
-    <a href="{% url 'login' %}">Already have an account? Log in</a>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

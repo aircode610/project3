@@ -11,6 +11,25 @@ html, body {
   height: 100%;
 }
 
+.sign-form {
+  width: 700px;
+  margin: 0 auto;
+}
+@media screen and (max-width: 700px) {
+  .sign-form {
+    width: 90%;
+  }
+}
+
+.submit {
+  background-color: $yellow;
+  color: $gray;
+}
+.submit:hover {
+  background-color: $green;
+  color: white;
+}
+
 #title {
   font-size: 20px;
   font-weight: bold;
@@ -80,6 +99,7 @@ html, body {
 .normal-food {
   font-size: 20px;
   margin-left: 40px;
+  margin-right: 10px;
 }
 
 .order-btn {
@@ -111,4 +131,16 @@ html, body {
   font-size: 20px;
   font-weight: bold;
   color: $green;
+}
+
+#topping-btn {
+  background-color: $yellow;
+}
+#topping-btn:hover {
+  color: white;
+  background-color: $green;
+}
+
+.custom-checkbox {
+  margin: 5px;
 }
