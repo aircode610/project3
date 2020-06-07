@@ -142,9 +142,14 @@ def logout(request):
 
 def order(request):
     cart = json.loads(request.POST.get('cart'))
-    price = json.loads(request.POST.get('price'))
+    price = request.POST.get('price')
 
-    new_order = Order(orders=cart, price=price)
+    order_str = ""
+
+    for item in cart:
+        order_str += item + " | "
+
+    new_order = Order(orders=order_str, price=price)
     new_order.save()
 
     send_mail(
