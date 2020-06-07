@@ -375,7 +375,7 @@
                 cart.push(name + "- Small"  + " $" + price.toString());
                 localStorage.setItem("cart", JSON.stringify(cart));
               }
-              if (food.large_price == price){
+              else if (food.large_price == price){
                 var cart = JSON.parse(localStorage.getItem("cart"));
                 cart.push(name + "- Large"  + " $" + price.toString());
                 localStorage.setItem("cart", JSON.stringify(cart));
@@ -514,16 +514,15 @@
           $.ajax({
               url: "/order",
               type: "POST",
-              dataType: "json",
               data: {
-                  cart: JSON.stringify(localStorage.getItem("cart")),
+                  cart: localStorage.getItem("cart"),
                   price: sum,
                   csrfmiddlewaretoken: '{{ csrf_token }}'
               },
-              error : function(xhr,errmsg,err) {
+              success : function(data) {
                 localStorage.clear();
                 $("#modal-body").empty();
-                alert("Your order has been reveived!");
+                alert("Your order has been received!");
                 location.reload();
               },
               complete: function(){
